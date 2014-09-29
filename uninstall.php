@@ -8,9 +8,4 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 global $wpdb;
 $prefix = $wpdb->base_prefix;
 
-$sql = "DELETE 
-        FROM `{$prefix}options` 
-        WHERE `option_name` LIKE 'osd_mc_form%'";
-
-$wpdb->query($sql); 
-exit;
+$wpdb->query("DELETE FROM `{$prefix}options` WHERE `option_name` LIKE 'osd_mc_form%'");
