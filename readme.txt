@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Yes, as users ask us questions.
 
 = 1.0 =
 Add multiple AJAX MailChimp forms
+
+= 1.1 =
+Fix uninstall error
 
 == A brief Feature List ==
 
