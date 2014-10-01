@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,9 @@ Shortcode basic example:
 
 Shortcode all options example:
 [osd-mc-form id='osd_mc_forms_1' class='custom-class' submit_text='Sign Up!']
+
+How To Video - Covers MailChimp set up, api key generation, list creation, OSD MC Form installation and setup
+https://www.youtube.com/watch?v=gb1eQAgbw-Q
 
 == Installation ==
 
@@ -54,7 +57,10 @@ Yes, as users ask us questions.
 Add multiple AJAX MailChimp forms
 
 = 1.1 =
-Fix uninstall error
+Correct Uninstall Error
+
+= 1.1 =
+Youtube how to video added
 
 == A brief Feature List ==
 
