@@ -51,6 +51,13 @@ Yes, as users ask us questions.
 = 1.0 =
 * Initial creation
 
+= 1.1 =
+Correct Uninstall Error
+
+= 1.2 =
+Youtube how to video added
+https://www.youtube.com/watch?v=gb1eQAgbw-Q
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -59,8 +66,9 @@ Add multiple AJAX MailChimp forms
 = 1.1 =
 Correct Uninstall Error
 
-= 1.1 =
+= 1.2 =
 Youtube how to video added
+https://www.youtube.com/watch?v=gb1eQAgbw-Q
 
 == A brief Feature List ==
 
