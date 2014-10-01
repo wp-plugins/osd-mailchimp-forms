@@ -15,7 +15,7 @@ function osd_mail_chimp_js() {
                 xhrs.push(xhr);
                 var data = "form_id=" + id + "&submit_text=" + submit_text + "&class=" + classes + "&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('osd_mc_load_form'); ?>" + "&action=osd_mc_load_form";
                 var cont = osd_mc_forms[i];
-                xhr.open("POST", "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php");
+                xhr.open("POST", "<?php echo site_url(); ?>/wp-admin/admin-ajax.php");
                 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xhr.onreadystatechange = loadFormHtml;
                 xhr.send(data);
@@ -65,7 +65,7 @@ function osd_mail_chimp_js() {
                 var userMsg = jQuery(form).find('.osd-mc-message');
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php",
+                    url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
                     data: data
                 }).done(function(response){
                     jQuery(submit_button).val(curr_sub_txt);

@@ -178,7 +178,7 @@ class OSDMailChimpSettings {
                     var data = 'action=osd_validate_mc_key&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('osd_validate_mc_key'); ?>&mcKey='+mcKey;
                     jQuery.ajax({
                         type: "POST",
-                        url: "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php",
+                        url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
                         data: data
                     }).done(function(response) {
                         if(response == 'good') {

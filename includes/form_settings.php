@@ -113,7 +113,7 @@ class OSDMailChimpForms {
                 var data = 'action=osd_mc_load_settings_form&list='+list+'&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('osd_mc_load_settings_form'); ?>';
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php",
+                    url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
                     data: data
                 }).done(function(response) {
                     jQuery('p.submit').before(response);
@@ -132,7 +132,7 @@ class OSDMailChimpForms {
                     var data = "action=delete_mc_form&remove="+shortCode+"&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('delete_mc_form'); ?>";
                     jQuery.ajax({
                         type: "POST",
-                        url: "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php",
+                        url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
                         data: data
                     }).done(function(response) {
                         jQuery(formWrap).slideUp("slow", function() {
@@ -149,7 +149,7 @@ class OSDMailChimpForms {
                 data += '&osd_mc_ajax=true&action=osd_admin_save_forms&wp_nonce=<?php echo wp_create_nonce('osd_admin_save_forms'); ?>';
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo WP_SITEURL; ?>/wp-admin/admin-ajax.php",
+                    url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
                     data: data
                 }).done(function(response) {
                     window.location += "&settings-updated=true";
