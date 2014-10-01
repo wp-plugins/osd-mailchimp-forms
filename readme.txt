@@ -68,7 +68,7 @@ Correct Uninstall Error
 
 = 1.2 =
 Youtube how to video added
-https://www.youtube.com/watch?v=gb1eQAgbw-Q
+["How To Video"](https://www.youtube.com/watch?v=gb1eQAgbw-Q)
 
 == A brief Feature List ==
 
