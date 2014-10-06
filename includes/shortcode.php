@@ -1,4 +1,7 @@
 <?php
+// Prevent direct access to file
+defined('ABSPATH') or die("No script kiddies please!");
+
 function osd_filter_text_widgets($content) {
     return do_shortcode($content);
 }

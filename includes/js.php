@@ -1,4 +1,7 @@
 <?php
+// Prevent direct access to file
+defined('ABSPATH') or die("No script kiddies please!");
+
 // Injects the OSD Mail Chimp JavaScript into the footer of non-admin pages
 function osd_mail_chimp_js() {
     ?>

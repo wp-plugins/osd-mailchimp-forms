@@ -1,4 +1,7 @@
 <?php
+// Prevent direct access to file
+defined('ABSPATH') or die("No script kiddies please!");
+
 //SETTINGS PAGE
 $settingsPage = new OSDMailChimpSettings();
 

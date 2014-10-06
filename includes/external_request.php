@@ -1,4 +1,7 @@
 <?php
+// Prevent direct access to file
+defined('ABSPATH') or die("No script kiddies please!");
+
 //see if we are running an ajax request, if so validate and add callback function
 function osd_validate_ajax_request() {
     if(isset($_POST['osd_mc_ajax'])) {

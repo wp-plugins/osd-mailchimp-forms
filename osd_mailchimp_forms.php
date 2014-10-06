@@ -3,11 +3,14 @@
 Plugin Name: OSD MailChimp Forms
 Plugin URI: http://outsidesource.com
 Description: A plugin for adding one or more signup forms for MailChimp lists.
-Version: 1.2
+Version: 1.3
 Author: OSD Web Development Team
 Author URI: http://outsidesource.com
 License: GPL2v2
 */
+
+// Prevent direct access to file
+defined('ABSPATH') or die("No script kiddies please!");
 
 include_once('includes/OSDMailChimp.php');
 
