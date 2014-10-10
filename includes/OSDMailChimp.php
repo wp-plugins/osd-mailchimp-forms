@@ -44,24 +44,24 @@ class OSDMailChimp {
         $this->mailChimpArray['id'] = array('listID' => $listID);
         $mailChimpResponse = $this->apiCall(json_encode($this->mailChimpArray), $this->baseURL.'/lists/merge-vars.json');
         $fieldArray = array();
-		$index = 0;
+        $index = 0;
 
-		if(!isset($mailChimpResponse['status'])) {
-			foreach($mailChimpResponse['data'] as $list) {
-				foreach($list['merge_vars'] as $field) {
-					$fieldArray[$index] = array('name' => $field['name'], 'tag' => $field['tag'], 'type' => $field['field_type'], 'required' => $field['req']);
-					if($field['field_type'] == 'radio' || $field['field_type'] == 'dropdown') {
-						$fieldArray[$index]['options'] = $field['choices'];
-					}
-					$index++;
-				}
-			}
+        if(!isset($mailChimpResponse['status'])) {
+            foreach($mailChimpResponse['data'] as $list) {
+                foreach($list['merge_vars'] as $field) {
+                    $fieldArray[$index] = array('name' => $field['name'], 'tag' => $field['tag'], 'type' => $field['field_type'], 'required' => $field['req']);
+                    if($field['field_type'] == 'radio' || $field['field_type'] == 'dropdown') {
+                        $fieldArray[$index]['options'] = $field['choices'];
+                    }
+                    $index++;
+                }
+            }
 
             $fieldArray['formInfo'] = array('listName' => $mailChimpResponse['data'][0]['name'], 'listID' => $mailChimpResponse['data'][0]['id']);
-			return $fieldArray;
-		}
-		
-		return 'error';
+            return $fieldArray;
+        }
+        
+        return 'error';
     }
 
     public function adminDisplayForm($args) {
@@ -71,48 +71,48 @@ class OSDMailChimp {
         $this->mailChimpArray['id'] = array('listID' => $args['listID']);
         $mailChimpResponse = $this->apiCall(json_encode($this->mailChimpArray), $this->baseURL.'/lists/merge-vars.json');
 
-		if(!isset($mailChimpResponse['status'])) {
+        if(!isset($mailChimpResponse['status'])) {
             //these fields will not have the placeholder input box
             $noPlcHolder = array('radio', 'dropdown', 'address');
 
             //create a unique form id
             $formID = (isset($args['formInfo'])) ? $args['formInfo']['formName'] : uniqid();
 
-			$return = "<div class='mcFormWrapper'>
-					   <div class='list-name'>".$mailChimpResponse['data'][0]['name']."</div>";
+            $return = "<div class='mcFormWrapper'>
+                       <div class='list-name'>".$mailChimpResponse['data'][0]['name']."</div>";
             $return .= (isset($args['formInfo'])) ? "<input name='form[".$formID."][shortCode]' class='shortCode' type='hidden' value='".$formID."' />" : '';
             $return .= "<input type='hidden' name='form[".$formID."][id]' value='".$mailChimpResponse['data'][0]['id']."' />";
             $return .= (isset($args['formInfo'])) ? "<div class='short-code'>Form Shortcode: &nbsp;&nbsp; [osd-mc-form id='".$formID."']</div>" : '';
-			$return .= "<div class='field titles'>
-							<div class='name'>Name</div>
-							<div class='tag'>Tag</div>
-							<div class='required'>Required</div>
-							<div class='include'>Include?</div>
-							<div class='placeholder'>Placeholder</div>
+            $return .= "<div class='field titles'>
+                            <div class='name'>Name</div>
+                            <div class='tag'>Tag</div>
+                            <div class='required'>Required</div>
+                            <div class='include'>Include?</div>
+                            <div class='placeholder'>Placeholder</div>
                             <div class='class'>Optional Class</div>
-						</div>";
-			
-			foreach($mailChimpResponse['data'] as $list) {
-				foreach($list['merge_vars'] as $field) {
-					$cur_field = ($cur_field = $this->ifset($args['formInfo'][$field['tag']])) ? $cur_field : false;
+                        </div>";
+            
+            foreach($mailChimpResponse['data'] as $list) {
+                foreach($list['merge_vars'] as $field) {
+                    $cur_field = ($cur_field = $this->ifset($args['formInfo'][$field['tag']])) ? $cur_field : false;
                     $checked = (($cur_field && isset($cur_field['include'])) || $field['req'] == true) ? " checked='checked'" : '';
                     $placeholder = ($cur_field && isset($cur_field['placeholder'])) ? $cur_field['placeholder'] : '';
                     $class = ($cur_field && isset($cur_field['class'])) ? $cur_field['class'] : '';
                     $disabled = ($field['req'] == true) ? ' disabled' : '';
 
                     $return .= "<div class='field'>
-									<div class='name'>".$field['name']."</div>
-									<div class='tag'>".$field['tag']."</div>";
-					$return .= ($field['req'] == true) ? "<div class='required'>Yes</div>" : "<div class='required'>No</div>";
-					$return .= "<div class='include'>
-								  <input type='checkbox'{$disabled} name='form[".$formID."][".$field['tag']."][include]' value='true'".$checked." />
-								</div>";
+                                    <div class='name'>".$field['name']."</div>
+                                    <div class='tag'>".$field['tag']."</div>";
+                    $return .= ($field['req'] == true) ? "<div class='required'>Yes</div>" : "<div class='required'>No</div>";
+                    $return .= "<div class='include'>
+                                  <input type='checkbox'{$disabled} name='form[".$formID."][".$field['tag']."][include]' value='true'".$checked." />
+                                </div>";
                     $return .= "<div class='placeholder'>";
-					$return .= (in_array($field['field_type'], $noPlcHolder)) ? '' : "<input type='text' name='form[".$formID."][".$field['tag']."][placeholder]' value='".$placeholder."' />";
+                    $return .= (in_array($field['field_type'], $noPlcHolder)) ? '' : "<input type='text' name='form[".$formID."][".$field['tag']."][placeholder]' value='".$placeholder."' />";
                     $return .= "</div>";
                     $return .= "<div class='class'><input type='text' name='form[".$formID."][".$field['tag']."][class]' value='".$class."' /></div>";
-					$return .= "</div>";
-				}
+                    $return .= "</div>";
+                }
                 $return .= "<div class='field'>
                                 <div class='success-label'>Custom success message:</div>
                                 <div class='success-msg'>
@@ -120,14 +120,14 @@ class OSDMailChimp {
                                 </div>
                                 <div class='msg-class'><input type='text' name='form[".$formID."][msg-class]' value='".$this->ifset($args['formInfo']['msg-class'])."' /></div>
                             </div>";
-			    
-				$return .= "<div class='mc-form-remove'>Remove</div></div>";
-			}
-			
-			return $return;
-		}
+                
+                $return .= "<div class='mc-form-remove'>Remove</div></div>";
+            }
+            
+            return $return;
+        }
 
-		return 'error';
+        return 'error';
     }
 
     public function load_form($args) {
@@ -178,12 +178,21 @@ class OSDMailChimp {
                 }
                 $html .= "</select></div>";
             } else if ($field['type'] == "address") {
-                $html .= "<div class='osd-mc-field address1{$field_class}'><label>Address{$requiredLabel}</label><input name='fields[ADDRESS][addr1]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field address2{$field_class}'><label>Address 2</label><input name='fields[ADDRESS][addr2]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field city{$field_class}'><label>City{$requiredLabel}</label><input name='fields[ADDRESS][city]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field state{$field_class}'><label>State{$requiredLabel}</label><input name='fields[ADDRESS][state]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field zip{$field_class}'><label>Zip{$requiredLabel}</label><input name='fields[ADDRESS][zip]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field country{$field_class}'><label>Country{$requiredLabel}</label><input name='fields[ADDRESS][country]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field address1{$field_class}'><label>Address{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][addr1]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field address2{$field_class}'><label>Address 2</label><input name='fields[osd-mc-address][{$field['tag']}][addr2]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field city{$field_class}'><label>City{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][city]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field state{$field_class}'><label>State{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][state]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field zip{$field_class}'><label>Zip{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][zip]' type='text'{$required} /></div>";
+                $html .= "<div class='osd-mc-field country{$field_class}'><label>Country{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][country]' type='text'{$required} /></div>";
+            } else if ($field['type'] == "phone") {
+                $type = "type='tel' ";
+                $pattern = "";
+                //$pattern = "pattern='[0-9]{3,3}-[0-9]{3,3}-[0-9]{4,4}' ";
+            
+                $html .= "<div class='osd-mc-field{$field_class}'>";
+                $html .= "<label for='{$field['tag']}'>{$field['name']}{$requiredLabel}</label>";
+                $html .= "<input name='fields[osd-mc-phone][{$field['tag']}]' {$type} placeholder='{$field_placeholder}'{$required}{$pattern} />";
+                $html .= "</div>";
             } else {
                 $pattern = "";
                 $max_length = "";
@@ -191,9 +200,6 @@ class OSDMailChimp {
                     $type = "type='email' ";
                 } else if ($field['type'] == "imageurl" || $field['type'] == "url") {
                     $type = "type='url' ";
-                } else if ($field['type'] == "phone") {
-                    $type = "type='tel' ";
-                    $pattern = "pattern='[0-9]{3,3}-[0-9]{3,3}-[0-9]{4,4}' ";
                 } else if ($field['type'] == "number") {
                     $type = "type='number' ";
                 } else {
@@ -229,9 +235,20 @@ class OSDMailChimp {
         $this->mailChimpArray['merge_vars'] = array('optin_ip' => $_SERVER['REMOTE_ADDR'],
                                                     'optin_time' => date("Y-m-d H:i:s"));
         foreach($data['fields'] as $tag => $field) {
-            if($tag == 'address') {
-                foreach($field['address'] as $key => $value) {
-                    $this->mailChimpArray['merge_vars']['ADDRESS'][$key] = $value;
+            if ($tag == 'osd-mc-address') {
+                foreach($field as $address_tag => $address_fields) {
+                    $this->mailChimpArray['merge_vars'][$address_tag] = $address_fields;
+                }
+            } else if ($tag == 'osd-mc-phone') {                
+                foreach($field as $phone_tag => $phone_field) {
+                    // Future number formatting?
+                    // $phone_field = preg_replace('/\D/', '', $phone_field);
+                    // if (strlen($phone_field) > 9) {
+                    //     $phone_field = substr($phone_field, -10);
+                    //     $phone_field = substr_replace($phone_field, '-', -7, -7);
+                    //     $phone_field = substr_replace($phone_field, '-', -4, -4);
+                    // }
+                    $this->mailChimpArray['merge_vars'][$phone_tag] = $phone_field;
                 }
             } else {
                 $this->mailChimpArray['merge_vars'][$tag] = $field;

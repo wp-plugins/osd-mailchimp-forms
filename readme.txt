@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,9 @@ https://www.youtube.com/watch?v=gb1eQAgbw-Q
 = 1.3 =
 Added some WordPress Security
 
+= 1.4 =
+Phone and address field updates
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -75,6 +78,9 @@ Youtube how to video added
 
 = 1.3 =
 Added some WordPress Security
+
+= 1.4 =
+Phone and address field updates
 
 == A brief Feature List ==
 
