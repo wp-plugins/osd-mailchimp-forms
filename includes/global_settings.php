@@ -40,7 +40,7 @@ class OSDMailChimpSettings {
             <h2>OSD MailChimp Global Settings</h2>   
             <?php
             //display any messages
-            if($_GET['settings-updated'] == 'true') { ?>
+            if (isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'true') { ?>
                 <div class="updated settings-error" id="setting-error-settings_updated"> 
                     <p><strong>Settings saved.</strong></p>
                 </div>

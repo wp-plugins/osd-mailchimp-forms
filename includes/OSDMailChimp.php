@@ -8,13 +8,16 @@ class OSDMailChimp {
     private $mailChimpArray;
 
     function __construct($args = NULL) { 
-        $this->mcKey = (isset($args['mcKey'])) ? $args['mcKey'] : get_option('osd_mc_form_options')['mcKey'];
+        $saved_key = get_option('osd_mc_form_options');
+        $saved_key = $saved_key['mcKey'];
+        $this->mcKey = (isset($args['mcKey'])) ? $args['mcKey'] : $saved_key;
         if($this->mcKey == '') {
             //dont do anything without a mc key
             return 'no key';
         }
 
-        $dataCenter = ($dataCenter = explode('-', $this->mcKey)[1]) ? $dataCenter : 'us7';
+        $dataCenter = explode('-', $this->mcKey);
+        $dataCenter = (isset($dataCenter[1])) ? $dataCenter[1] : 'us7';
         $this->baseURL = 'https://'.$dataCenter.'.api.mailchimp.com/2.0';
         $this->mailChimpArray = array("apikey" => $this->mcKey);
         $this->args = $args;
@@ -227,7 +230,8 @@ class OSDMailChimp {
             return 'error: please provide required fields';
         }
 
-        if(get_option('osd_mc_form_options')['optIN'] == 'single') {
+        $double_optin_setting = get_option('osd_mc_form_options');
+        if($double_optin_setting['optIN'] == 'single') {
             $this->mailChimpArray['double_optin'] = 0;
         }
         $this->mailChimpArray['id'] = $data['listID'];

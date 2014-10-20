@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,8 +12,6 @@ OSD MailChimp Forms allows you to add as many MailChimp subscription forms to yo
 == Description ==
 
 OSD MailChimp Forms gives the ability to add MailChimp subscription forms to be placed anywhere on your site with a shortcode. The primary benefit of this plugin is that it allows multiple AJAX forms on one page. So, you could have a newsletter signup in the footer, a blog signup in the sidebar, and another blog subscription signup in the main content area.  The plugin allows for custom submission messages, field classes, form classes, custom submit button text, and removal of the double opt in emails! NO styling is placed on the forms by this plugin, so there is nothing to override. Use your theme's default styling or add custom styles. Simply enter your api key and start creating / placing forms in your content or Text Widgets.
-
-NOTE: You must have PHP version 5.4 or later installed on your server to run this plugin
 
 Shortcode basic example:
 [osd-mc-form id='osd_mc_forms_1']
@@ -34,7 +32,6 @@ https://www.youtube.com/watch?v=gb1eQAgbw-Q
 6. Add a form from your MailChimp account
 7. Save 
 8. Copy the shortcode from the top left of the form that you have just added
-9. NOTE: You must have PHP version 5.4 or later installed on your server to run this plugin
 
 == Frequently Asked Questions ==
 
@@ -66,7 +63,9 @@ Added some WordPress Security
 
 = 1.4 =
 Phone and address field updates
-NOTE: You must have PHP version 5.4 or later installed on your server to run this plugin
+
+= 1.5 =
+Updated to work with older versions of PHP
 
 == Upgrade Notice ==
 
@@ -85,7 +84,9 @@ Added some WordPress Security
 
 = 1.4 =
 Phone and address field updates
-NOTE: You must have PHP version 5.4 or later installed on your server to run this plugin
+
+= 1.5 =
+Updated to work with older versions of PHP
 
 == A brief Feature List ==
 
@@ -97,7 +98,6 @@ NOTE: You must have PHP version 5.4 or later installed on your server to run thi
 6. Custom classes on forms and form fields
 7. Placeholders on text fields
 8. All actions are AJAX (no page refreshes)
-9. NOTE: You must have PHP version 5.4 or later installed on your server to run this plugin
 
 Link to plugin page [Wordpress plugin page](http://wordpress.org/plugins/osd-mailchimp-forms/ "Link").
 

@@ -9,7 +9,6 @@ Author URI: http://outsidesource.com
 License: GPL2v2
 */
 
-// Prevent direct access to file
 defined('ABSPATH') or die("No script kiddies please!");
 
 include_once('includes/OSDMailChimp.php');
@@ -25,7 +24,8 @@ if (is_admin()) {
 		include_once('includes/shortcode.php');
 	}
 } else {
-	if(get_option('osd_mc_form_options')['mcKey'] != '') {
+	$osd_mc_form_pg_options =get_option('osd_mc_form_options');
+	if(isset($osd_mc_form_pg_options['mcKey']) &&  $osd_mc_form_pg_options['mcKey'] != '') {
 		include_once('includes/shortcode.php');
 		include_once('includes/js.php');
 	}

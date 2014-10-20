@@ -44,7 +44,7 @@ class OSDMailChimpForms {
             <h2>OSD MailChimp Forms</h2>   
             <?php
             //display any messages
-            if($_GET['settings-updated'] == 'true') { ?>
+            if (isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'true') { ?>
                 <div class="updated settings-error" id="setting-error-settings_updated"> 
                     <p><strong>Settings saved.</strong></p>
                 </div>
@@ -165,7 +165,7 @@ class OSDMailChimpForms {
     public function addStyle() {
         ?>
         <style type="text/css">
-			.mcFormWrapper {
+            .mcFormWrapper {
                 border-top: 1px solid #ccc;
                 margin-top: 30px;
                 max-width: 50%;
@@ -183,33 +183,33 @@ class OSDMailChimpForms {
                 padding: 5px 10px;
                 text-align: right;
             }
-			.mcFormWrapper > .field {
-				padding: 5px 0;
+            .mcFormWrapper > .field {
+                padding: 5px 0;
                 border: 1px solid #aaa;
                 border-top: none;
-			}
-			.mcFormWrapper > .field.titles {
+            }
+            .mcFormWrapper > .field.titles {
                 background-color: #0074a2;
                 border-top: 1px solid #aaa;
                 color: #fff;
                 font-size: 115%;
                 font-weight: bold;
             }
-			.mcFormWrapper > .field {
-				background-color: #fff;	
-			}
+            .mcFormWrapper > .field {
+                background-color: #fff; 
+            }
             .mcFormWrapper,
             .mcFormWrapper > .field:after {
                 content: "";
                 display: block;
                 clear: both;
             }
-			.mcFormWrapper > .field > div {
-				display: inline-block;
-				text-align: center;
-				width: 16.6%;
+            .mcFormWrapper > .field > div {
+                display: inline-block;
+                text-align: center;
+                width: 16.6%;
                 float: left;
-			}
+            }
             .mcFormWrapper > .field > .required {
                 width: 13%;
             }
