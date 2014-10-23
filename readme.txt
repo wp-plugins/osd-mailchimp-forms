@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,17 @@ Shortcode basic example:
 Shortcode all options example:
 [osd-mc-form id='osd_mc_forms_1' class='custom-class' submit_text='Sign Up!']
 
+Form filter example:
+Every form is filterable. The filter name is the form id.
+The full content, the fields, the message container, and the submit button are provided.
+$fields, $message, and $submit concatenated together is $content.
+
+add_filter('osd_mc_forms_1', 'my_function', 10, 4);
+
+function my_function($content, $fields, $message, $submit) {
+    return "This appears before the content".$content."This appears after the content";
+}
+
 How To Video - Covers MailChimp set up, api key generation, list creation, OSD MC Form installation and setup
 https://www.youtube.com/watch?v=gb1eQAgbw-Q
 
@@ -30,7 +41,7 @@ https://www.youtube.com/watch?v=gb1eQAgbw-Q
 4. Add your MailChimp API key and save 
 5. Navigate to the Forms subpage of OSD MailChimp on the left admin menu
 6. Add a form from your MailChimp account
-7. Save 
+7. Save
 8. Copy the shortcode from the top left of the form that you have just added
 
 == Frequently Asked Questions ==
@@ -48,24 +59,30 @@ Yes, as users ask us questions.
 
 == Changelog ==
 
-= 1.0 =
-* Initial creation
+= 1.6 =
+* Added a filter for forms based on form id
+* Changed error message to be more user-friendly than "error"
+* Added support for multiple messages (i.e. one above your form and one below)
+* Submission event is now fired on form submit rather than submit button onClick
 
-= 1.1 =
-Correct Uninstall Error
+= 1.5 =
+Updated to work with older versions of PHP
+
+= 1.4 =
+Phone and address field updates
+
+= 1.3 =
+Added some WordPress Security
 
 = 1.2 =
 Youtube how to video added
 https://www.youtube.com/watch?v=gb1eQAgbw-Q
 
-= 1.3 =
-Added some WordPress Security
+= 1.1 =
+Correct Uninstall Error
 
-= 1.4 =
-Phone and address field updates
-
-= 1.5 =
-Updated to work with older versions of PHP
+= 1.0 =
+* Initial creation
 
 == Upgrade Notice ==
 
@@ -98,6 +115,7 @@ Updated to work with older versions of PHP
 6. Custom classes on forms and form fields
 7. Placeholders on text fields
 8. All actions are AJAX (no page refreshes)
+9. Every form is filterable
 
 Link to plugin page [Wordpress plugin page](http://wordpress.org/plugins/osd-mailchimp-forms/ "Link").
 

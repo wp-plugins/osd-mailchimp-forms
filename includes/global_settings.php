@@ -21,8 +21,7 @@ class OSDMailChimpSettings {
             'manage_options', 
             'osd-mailchimp-form-options', 
             array($this, 'create_admin_page'), 
-            plugins_url('osd-mailchimp-forms/images/icon.png'), 
-            '80.25'
+            plugins_url('osd-mailchimp-forms/images/icon.png')
         ); 
     }
 

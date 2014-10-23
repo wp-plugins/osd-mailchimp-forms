@@ -149,9 +149,13 @@ class OSDMailChimp {
         }
         
         $form_class = (isset($args['class']) && $args['class'] != '') ? " ".$args['class'] : '';
+        $submit_text = (isset($args['atts']['submit_text'])) ? $args['atts']['submit_text'] : $_POST['submit_text'];
+        $submit_text = ($submit_text != "") ? $submit_text : "Submit";
         $html = "<form class='osd-mc-form{$form_class}'>";
         $html .= "<input type='hidden' name='shortCode' value='{$args['form_id']}' />";
         $html .= "<input type='hidden' name='listID' value='{$mc_fields['formInfo']['listID']}' />";
+        $filterable = "";
+        $fields_html = "";
         
         foreach ($mc_fields as $key => $field) {
             if ($key === "formInfo" || !isset($user_fields[$field['tag']]['include'])) { 
@@ -161,41 +165,42 @@ class OSDMailChimp {
             $requiredLabel = ($field['required'] == "1") ? "<span class='osd-mc-form-required'>*</span>" : "";
             $field_class = (isset($user_fields[$field['tag']]['class']) && $user_fields[$field['tag']]['class'] != '') ? ' '.$user_fields[$field['tag']]['class'] : '';
             $field_placeholder = (isset($user_fields[$field['tag']]['placeholder']) && $user_fields[$field['tag']]['placeholder'] != '') ? $user_fields[$field['tag']]['placeholder'] : '';
+            $field_html = "";
 
             if ($field['type'] == "radio") {
-                $html .= "<div class='osd-mc-field-group{$field_class}'>";
-                $html .= "<label>{$field['name']}{$requiredLabel}</label>";
+                $field_html .= "<div class='osd-mc-field-group{$field_class}'>";
+                $field_html .= "<label>{$field['name']}{$requiredLabel}</label>";
                 foreach ($field['options'] as $key => $option) {
-                    $html .= "<div class='osd-mc-field'>";
-                    $html .= "<input type='{$field['type']}' id='{$field['tag']}-{$key}' name='fields[{$field['tag']}]' value='{$option}'{$required} />";
-                    $html .= "<label for='{$field['tag']}-{$key}'>{$option}</label>";
-                    $html .= "</div>";
+                    $field_html .= "<div class='osd-mc-field'>";
+                    $field_html .= "<input type='{$field['type']}' id='{$field['tag']}-{$key}' name='fields[{$field['tag']}]' value='{$option}'{$required} />";
+                    $field_html .= "<label for='{$field['tag']}-{$key}'>{$option}</label>";
+                    $field_html .= "</div>";
                 }
-                $html .= "</div>";
+                $field_html .= "</div>";
             } else if ($field['type'] == "dropdown") {
-                $html .= "<div class='osd-mc-field{$field_class}'>";
-                $html .= "<label>{$field['name']}{$requiredLabel}</label>";
-                $html .= "<select name='fields[{$field['tag']}]'{$required}>";
+                $field_html .= "<div class='osd-mc-field{$field_class}'>";
+                $field_html .= "<label>{$field['name']}{$requiredLabel}</label>";
+                $field_html .= "<select name='fields[{$field['tag']}]'{$required}>";
                 foreach ($field['options'] as $key => $option) {
-                    $html .= "<option value='{$option}'>{$option}</option>";
+                    $field_html .= "<option value='{$option}'>{$option}</option>";
                 }
-                $html .= "</select></div>";
+                $field_html .= "</select></div>";
             } else if ($field['type'] == "address") {
-                $html .= "<div class='osd-mc-field address1{$field_class}'><label>Address{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][addr1]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field address2{$field_class}'><label>Address 2</label><input name='fields[osd-mc-address][{$field['tag']}][addr2]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field city{$field_class}'><label>City{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][city]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field state{$field_class}'><label>State{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][state]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field zip{$field_class}'><label>Zip{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][zip]' type='text'{$required} /></div>";
-                $html .= "<div class='osd-mc-field country{$field_class}'><label>Country{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][country]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field address1{$field_class}'><label>Address{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][addr1]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field address2{$field_class}'><label>Address 2</label><input name='fields[osd-mc-address][{$field['tag']}][addr2]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field city{$field_class}'><label>City{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][city]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field state{$field_class}'><label>State{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][state]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field zip{$field_class}'><label>Zip{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][zip]' type='text'{$required} /></div>";
+                $field_html .= "<div class='osd-mc-field country{$field_class}'><label>Country{$requiredLabel}</label><input name='fields[osd-mc-address][{$field['tag']}][country]' type='text'{$required} /></div>";
             } else if ($field['type'] == "phone") {
                 $type = "type='tel' ";
                 $pattern = "";
                 //$pattern = "pattern='[0-9]{3,3}-[0-9]{3,3}-[0-9]{4,4}' ";
             
-                $html .= "<div class='osd-mc-field{$field_class}'>";
-                $html .= "<label for='{$field['tag']}'>{$field['name']}{$requiredLabel}</label>";
-                $html .= "<input name='fields[osd-mc-phone][{$field['tag']}]' {$type} placeholder='{$field_placeholder}'{$required}{$pattern} />";
-                $html .= "</div>";
+                $field_html .= "<div class='osd-mc-field{$field_class}'>";
+                $field_html .= "<label for='{$field['tag']}'>{$field['name']}{$requiredLabel}</label>";
+                $field_html .= "<input name='fields[osd-mc-phone][{$field['tag']}]' {$type} placeholder='{$field_placeholder}'{$required}{$pattern} />";
+                $field_html .= "</div>";
             } else {
                 $pattern = "";
                 $max_length = "";
@@ -210,18 +215,18 @@ class OSDMailChimp {
                     $max_length = "maxlength='256' ";
                 }
 
-                $html .= "<div class='osd-mc-field{$field_class}'>";
-                $html .= "<label for='{$field['tag']}'>{$field['name']}{$requiredLabel}</label>";
-                $html .= "<input name='fields[{$field['tag']}]' {$type} placeholder='{$field_placeholder}'{$required}{$pattern}{$max_length} />";
-                $html .= "</div>";
+                $field_html .= "<div class='osd-mc-field{$field_class}'>";
+                $field_html .= "<label for='{$field['tag']}'>{$field['name']}{$requiredLabel}</label>";
+                $field_html .= "<input name='fields[{$field['tag']}]' {$type} placeholder='{$field_placeholder}'{$required}{$pattern}{$max_length} />";
+                $field_html .= "</div>";
             }
+            $fields_html .= $field_html;
         }
-        $submit_text = (isset($args['atts']['submit_text'])) ? $args['atts']['submit_text'] : $_POST['submit_text'];
-        $submit_text = ($submit_text != "") ? $submit_text : "Submit";
-        $html .= "<div class='osd-mc-message'></div>";
-        $html .= "<div class='osd-mc-submit-cont'><input class='osd-mc-submit' type='submit' value='{$submit_text}' /></div>";
+        $message_html .= "<div class='osd-mc-message'></div>";
+        $submit_html .= "<div class='osd-mc-submit-cont'><input class='osd-mc-submit' type='submit' value='{$submit_text}' /></div>";
+        $filterable .= $fields_html . $message_html . $submit_html;
+        $html .= apply_filters($args["form_id"], $filterable, $fields_html, $message_html, $submit_html);
         $html .= "</form>";
-        
         return $html;
     }
 

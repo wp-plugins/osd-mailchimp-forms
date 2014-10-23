@@ -29,9 +29,9 @@ function osd_mail_chimp_js() {
                 if (this.readyState === 4 && this.status === 200) {
                     var cont = osd_mc_forms[xhrs.indexOf(this)];
                     cont.innerHTML = this.responseText;
-                    var submit = cont.querySelector('.osd-mc-submit');
-                    if (submit !== null) {
-                        submit.onclick = submit_mc_form;
+                    var form = cont.querySelector('.osd-mc-form');
+                    if (form !== null) {
+                        form.onsubmit = submit_mc_form;
                     }
                 }
             }
@@ -40,7 +40,7 @@ function osd_mail_chimp_js() {
             // OSD Mailchimp form submission
             function submit_mc_form(ev) {
                 ev.preventDefault();
-                var form = jQuery(this).parents('form');
+                var form = this;
 
                 // Client side form validation                    
                 if (HTMLFormElement.prototype.checkValidity !== undefined) {
@@ -60,26 +60,35 @@ function osd_mail_chimp_js() {
                     }
                 }
                 
-                var submit_button = jQuery(this);
-                var curr_sub_txt = jQuery(submit_button).val();
-                jQuery(submit_button).val('Processing...');
+                var messages = form.querySelectorAll('.osd-mc-message');
+                for (var i=0, l=messages.length; i < l; i++) {
+                    messages[i].innerHTML = "Processing...";                    
+                }
                 var data = jQuery(form).serialize();
                 data += "&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('osd_mc_subscribe'); ?>&action=osd_mc_subscribe"
-                var userMsg = jQuery(form).find('.osd-mc-message');
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
-                    data: data
-                }).done(function(response){
-                    jQuery(submit_button).val(curr_sub_txt);
-                    jQuery(userMsg).html(response);
-                    if(response != 'error') {
-                        jQuery(form).trigger('reset');
+                var errorMessage = "Sorry, there was an error.";
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "<?php echo site_url(); ?>/wp-admin/admin-ajax.php");
+                xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        if (this.status === 200) {
+                            var message = (this.response != "error") ? this.response : errorMessage;
+                            if (this.response != "error") {
+                                form.reset();
+                            }
+                            for (var i=0, l=messages.length; i < l; i++) {
+                                messages[i].innerHTML = message;
+                            }
+                        } else {
+                            for (var i=0, l=messages.length; i < l; i++) {
+                                messages[i].innerHTML = errorMessage;
+                            }
+                        }
                     }
-                    setTimeout(function() {
-                        jQuery(userMsg).html('');
-                    }, 5000);
-                });
+                }
+                xhr.send(data);
             }
         })();
     </script>

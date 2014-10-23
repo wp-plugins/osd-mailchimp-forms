@@ -177,7 +177,8 @@ class OSDMailChimpForms {
                 font-size: 125%;
                 margin-bottom: 10px;
             }
-            .mcFormWrapper > .short-code {
+            .mcFormWrapper > .short-code,
+            .mcFormWrapper > .filter-help {
                 background-color: #333;
                 color: #eee;
                 padding: 5px 10px;
