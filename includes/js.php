@@ -74,8 +74,9 @@ function osd_mail_chimp_js() {
                 xhr.onreadystatechange = function() {
                     if (this.readyState === 4) {
                         if (this.status === 200) {
-                            var message = (this.response != "error") ? this.response : errorMessage;
-                            if (this.response != "error") {
+                            var response = (this.response !== undefined) ? this.response: this.responseText;
+                            var message = (response != "error") ? response : errorMessage;
+                            if (response != "error") {
                                 form.reset();
                             }
                             for (var i=0, l=messages.length; i < l; i++) {

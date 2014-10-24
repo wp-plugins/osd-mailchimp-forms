@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.6
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ Yes, as users ask us questions.
 4. Unstyled Successfully Submitted Form
 
 == Changelog ==
+
+= 1.6.1 =
+* Fixed JavaScript bug in IE9
 
 = 1.6 =
 * Added a filter for forms based on form id
