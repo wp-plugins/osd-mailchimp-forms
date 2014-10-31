@@ -17,29 +17,32 @@ function osd_validate_ajax_request() {
 add_action('wp_loaded', 'osd_validate_ajax_request');
 
 function osd_mc_load_settings_form() {
-    $result = (new OSDMailChimp())->adminDisplayForm(array('listID' => $_POST['list']));
-    echo $result;
+    $omc = new OSDMailChimp();
+    echo $omc->adminDisplayForm(array('listID' => $_POST['list']));
     exit;
 }
 
 function osd_validate_mc_key() {
-    $result = (new OSDMailChimp(array('mcKey' => $_POST['mcKey'])))->validateKey();
-    echo ($result) ? 'good' : 'error';
+    $omc = new OSDMailChimp();
+    echo ($omc->validateKey()) ? 'good' : 'error';
     exit;
 }
 
 function osd_mc_subscribe() {
-    echo (new OSDMailChimp())->subscribe($_POST);
+    $omc = new OSDMailChimp();
+    echo $omc->subscribe($_POST);
     exit;
 }
 
 function osd_get_mc_fields() {
-    echo json_encode((new OSDMailChimp())->getFields($_POST['getFields']));
+    $omc = new OSDMailChimp();
+    echo json_encode($omc->getFields($_POST['getFields']));
     exit;
 }
 
 function osd_mc_load_form() {
-    echo (new OSDMailChimp())->load_form($_POST);
+    $omc = new OSDMailChimp();
+    echo $omc->load_form($_POST);
     exit;
 }
 
