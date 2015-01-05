@@ -76,11 +76,16 @@ function osd_mail_chimp_js() {
                         if (this.status === 200) {
                             var response = (this.response !== undefined) ? this.response: this.responseText;
                             var message = (response != "error") ? response : errorMessage;
-                            if (response != "error") {
-                                form.reset();
-                            }
-                            for (var i=0, l=messages.length; i < l; i++) {
-                                messages[i].innerHTML = message;
+                            try {
+                                var redirect = JSON.parse(response);
+                                window.location = redirect.url;
+                            } catch(error) {
+                                if (response != "error") {
+                                    form.reset();
+                                }
+                                for (var i=0, l=messages.length; i < l; i++) {
+                                    messages[i].innerHTML = message;
+                                }
                             }
                         } else {
                             for (var i=0, l=messages.length; i < l; i++) {

@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.6.2
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,9 @@ Yes, as users ask us questions.
 
 == Changelog ==
 
+= 1.7 =
+Added the ability to redirect to a page on site on success
+
 = 1.6.2 =
 * Fixed bugs with PHP 5.3
 
@@ -110,6 +113,9 @@ Phone and address field updates
 
 = 1.5 =
 Updated to work with older versions of PHP
+
+= 1.7 =
+Added the ability to redirect to a page on site on success
 
 == A brief Feature List ==
 

@@ -123,6 +123,18 @@ class OSDMailChimp {
                                 </div>
                                 <div class='msg-class'><input type='text' name='form[".$formID."][msg-class]' value='".$this->ifset($args['formInfo']['msg-class'])."' /></div>
                             </div>";
+                $return .= "<div class='field'>
+                                <div class='success-label'>Redirect page on success:</div>
+                                <div class='success-page'>
+                                    ".wp_dropdown_pages(array(
+                                        'name' => 'form['.$formID.'][success-page]', 
+                                        'selected' => $this->ifset($args['formInfo']['success-page']), 
+                                        'show_option_none'=>'None',
+                                        'echo' => false
+                                        )
+                                    )."
+                                </div>
+                            </div>";
                 
                 $return .= "<div class='mc-form-remove'>Remove</div></div>";
             }
@@ -147,7 +159,7 @@ class OSDMailChimp {
         } else {
             return 'error';
         }
-        
+
         $form_class = (isset($args['class']) && $args['class'] != '') ? " ".$args['class'] : '';
         $submit_text = (isset($args['atts']['submit_text'])) ? $args['atts']['submit_text'] : $_POST['submit_text'];
         $submit_text = ($submit_text != "") ? $submit_text : "Submit";
@@ -267,7 +279,9 @@ class OSDMailChimp {
         $mailChimpResponse = $this->apiCall(json_encode($this->mailChimpArray), $this->baseURL.'/lists/subscribe.json');
         if(isset($mailChimpResponse['euid'])) {
             $form_options = json_decode(get_option($data['shortCode']), true);
-            if(isset($form_options['success-msg']) && $form_options['success-msg'] != '') {
+            if (isset($form_options['success-page']) && $form_options['success-page'] != '') {
+                return json_encode(array('redirect' => 1, 'url' => get_page_link($form_options['success-page'])));
+            } else if (isset($form_options['success-msg']) && $form_options['success-msg'] != '') {
                 return $form_options['success-msg'];
             } else {
                 return apply_filters('the_content', get_option('osd_mc_form_submission_message'));
