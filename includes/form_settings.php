@@ -227,13 +227,19 @@ class OSDMailChimpForms {
             .mcFormWrapper > .field > .class > input {
                 width: 100%;
             }
-            .mcFormWrapper > .field > .success-label {
+            .mcFormWrapper > .field > .success-label,
+            .mcFormWrapper > .field > .failure-label,
+            .mcFormWrapper > .field > .duplicate-failure-label {
                 width: 26%;
             }
-            .mcFormWrapper .field .success-msg {
+            .mcFormWrapper .field .success-msg,
+            .mcFormWrapper .field .failure-msg,
+            .mcFormWrapper .field .duplicate-failure-msg {
                 width: 53%;
             }
             .mcFormWrapper .field .success-msg input,
+            .mcFormWrapper .field .failure-msg input,
+            .mcFormWrapper .field .duplicate-failure-msg input,
             .mcFormWrapper .field .msg-class > input {
                 width: 100%;
             }

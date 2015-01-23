@@ -23,7 +23,7 @@ function osd_mc_load_settings_form() {
 }
 
 function osd_validate_mc_key() {
-    $omc = new OSDMailChimp();
+    $omc = new OSDMailChimp($_POST);
     echo ($omc->validateKey()) ? 'good' : 'error';
     exit;
 }

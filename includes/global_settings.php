@@ -32,7 +32,8 @@ class OSDMailChimpSettings {
 
         // Set class property
         $this->options = get_option('osd_mc_form_options');
-        $this->submissionMessage = get_option('osd_mc_form_submission_message');
+        $this->successMessage = get_option('osd_mc_form_success_message');
+        $this->failureMessage = get_option('osd_mc_form_failure_message');
         ?>
         <div class="wrap">
             <?php screen_icon(); ?>
@@ -69,7 +70,13 @@ class OSDMailChimpSettings {
 
         register_setting(
             'osd-mailchimp-form-options', // Option group
-            'osd_mc_form_submission_message', // Option name
+            'osd_mc_form_success_message', // Option name
+            array($this, 'apply_content_save_pre') // Sanitize
+        );
+
+        register_setting(
+            'osd-mailchimp-form-options', // Option group
+            'osd_mc_form_failure_message', // Option name
             array($this, 'apply_content_save_pre') // Sanitize
         );
 
@@ -97,12 +104,20 @@ class OSDMailChimpSettings {
         );      
 
         add_settings_field(
-            'submission-message', 
-            'Custom Submission Message', 
-            array($this, 'submission_message_callback'), 
+            'success-message', 
+            'Global Custom Success Message (can override on individual form options)', 
+            array($this, 'success_message_callback'), 
             'osd-mailchimp-form-options', 
             'main_settings'
         );  
+
+        add_settings_field(
+            'failure-message', 
+            'Global Custom Failure Message (can override on individual form options)', 
+            array($this, 'failure_message_callback'), 
+            'osd-mailchimp-form-options', 
+            'main_settings'
+        ); 
     }
 
     //sanitize  
@@ -152,16 +167,28 @@ class OSDMailChimpSettings {
         <?php
     }
 
-    public function submission_message_callback() {
-        $submission_message_parameters = array(
+    public function success_message_callback() {
+        $success_message_parameters = array(
             'teeny' => false,
             'textarea_rows' => 10,
             'tabindex' => 1,
-            'textarea_name' => 'osd_mc_form_submission_message',
+            'textarea_name' => 'osd_mc_form_success_message',
             'drag_drop_upload' => true
         );
-        $content = apply_filters('content_edit_pre', $this->submissionMessage);
-        wp_editor($content, 'content', $submission_message_parameters);
+        $content = apply_filters('content_edit_pre', $this->successMessage);
+        wp_editor($content, 'success-content', $success_message_parameters);
+    }
+
+    public function failure_message_callback() {
+        $failure_message_parameters = array(
+            'teeny' => false,
+            'textarea_rows' => 10,
+            'tabindex' => 1,
+            'textarea_name' => 'osd_mc_form_failure_message',
+            'drag_drop_upload' => true
+        );
+        $content = apply_filters('content_edit_pre', $this->failureMessage);
+        wp_editor($content, 'failure-content', $failure_message_parameters);
     }
     /**** end output to admin settings screen ****/
 

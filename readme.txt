@@ -2,8 +2,8 @@
 Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
-Tested up to: 4.0
-Stable tag: 1.7
+Tested up to: 4.1
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,11 @@ Yes, as users ask us questions.
 
 == Changelog ==
 
+= 2.0 =
+* Lots of new features added (See Upgrade Notice) revolving around MailChimp error handling
+* API Key Validation bug fixed
+* Various other bugs addressed
+
 = 1.7 =
 Added the ability to redirect to a page on site on success
 
@@ -95,27 +100,28 @@ Correct Uninstall Error
 
 == Upgrade Notice ==
 
-= 1.0 =
-Add multiple AJAX MailChimp forms
+= 2.0 =
+* Customizable error messaging and classes
+* Specific errors for users already subscribed to list
+* Global error message settings
+* All custom messages are now run through the content filter to allow for shortcodes and better html handling
 
-= 1.1 =
-Correct Uninstall Error
+= 1.7 =
+Added the ability to redirect to a page on site on success
+
+= 1.5 =
+Updated to work with older versions of PH
+
+= 1.3 =
+Added some WordPress Security
 
 = 1.2 =
 Youtube how to video added
 ["How To Video"](https://www.youtube.com/watch?v=gb1eQAgbw-Q)
 
-= 1.3 =
-Added some WordPress Security
+= 1.0 =
+Add multiple AJAX MailChimp forms
 
-= 1.4 =
-Phone and address field updates
-
-= 1.5 =
-Updated to work with older versions of PHP
-
-= 1.7 =
-Added the ability to redirect to a page on site on success
 
 == A brief Feature List ==
 

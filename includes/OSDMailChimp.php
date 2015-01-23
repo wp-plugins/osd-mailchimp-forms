@@ -124,6 +124,20 @@ class OSDMailChimp {
                                 <div class='msg-class'><input type='text' name='form[".$formID."][msg-class]' value='".$this->ifset($args['formInfo']['msg-class'])."' /></div>
                             </div>";
                 $return .= "<div class='field'>
+                                <div class='failure-label'>Custom general failure message:</div>
+                                <div class='failure-msg'>
+                                    <input type='text' name='form[".$formID."][failure-msg]' value='".$this->ifset($args['formInfo']['failure-msg'])."' />
+                                </div>
+                                <div class='msg-class'><input type='text' name='form[".$formID."][failure-msg-class]' value='".$this->ifset($args['formInfo']['failure-msg-class'])."' /></div>
+                            </div>";
+                $return .= "<div class='field'>
+                                <div class='duplicate-failure-label'>Custom duplicate email failure message:</div>
+                                <div class='duplicate-failure-msg'>
+                                    <input type='text' name='form[".$formID."][duplicate-failure-msg]' value='".$this->ifset($args['formInfo']['duplicate-failure-msg'])."' />
+                                </div>
+                                <div class='msg-class'><input type='text' name='form[".$formID."][duplicate-failure-msg-class]' value='".$this->ifset($args['formInfo']['duplicate-failure-msg-class'])."' /></div>
+                            </div>";
+                $return .= "<div class='field'>
                                 <div class='success-label'>Redirect page on success:</div>
                                 <div class='success-page'>
                                     ".wp_dropdown_pages(array(
@@ -244,7 +258,7 @@ class OSDMailChimp {
 
     public function subscribe($data) {
         if(!isset($data['fields']['EMAIL']) || !isset($data['listID']) || $data['fields']['EMAIL'] == '' || $data['listID'] == '') {
-            return 'error: please provide required fields';
+            return json_encode(array('status' => 'error', 'content' => 'Please provide required fields.'));
         }
 
         $double_optin_setting = get_option('osd_mc_form_options');
@@ -277,17 +291,64 @@ class OSDMailChimp {
         }
 
         $mailChimpResponse = $this->apiCall(json_encode($this->mailChimpArray), $this->baseURL.'/lists/subscribe.json');
-        if(isset($mailChimpResponse['euid'])) {
-            $form_options = json_decode(get_option($data['shortCode']), true);
+        $form_options = json_decode(get_option($data['shortCode']), true);
+        if(isset($mailChimpResponse['euid'])) { // Success
+            $class = (isset($form_options['msg-class']) && $form_options['msg-class'] != '') ? $form_options['msg-class'] : 'global-success';
+            $status = 'success';
             if (isset($form_options['success-page']) && $form_options['success-page'] != '') {
-                return json_encode(array('redirect' => 1, 'url' => get_page_link($form_options['success-page'])));
+                // Redirect
+                $return = array('status' => $status, 'redirect' => 1, 'url' => get_page_link($form_options['success-page']));
             } else if (isset($form_options['success-msg']) && $form_options['success-msg'] != '') {
-                return $form_options['success-msg'];
+                // Forms specific success message
+                $return = array(
+                    'status' => $status,
+                    'class' => $class, 
+                    'content' => apply_filters('the_content', $form_options['success-msg'])
+                );
             } else {
-                return apply_filters('the_content', get_option('osd_mc_form_submission_message'));
+                // Global success message
+                $return = array(
+                    'status' => $status,
+                    'class' => $class, 
+                    'content' => apply_filters('the_content', get_option('osd_mc_form_success_message'))
+                );
+            }
+        } else if ($mailChimpResponse['status'] == 'error') { // Specific failure messages
+            $class = 'global-failure';
+            $status = 'error';
+            if ($mailChimpResponse['name'] == 'List_AlreadySubscribed') { // Duplicate email address
+                if (isset($form_options['duplicate-failure-msg']) && $form_options['duplicate-failure-msg'] != '') {
+                    // Form specific duplicate email failure
+                    $class = (isset($form_options['duplicate-failure-msg-class']) && $form_options['duplicate-failure-msg-class'] != '') ? $form_options['duplicate-failure-msg-class'] : $class;
+                    $return = array(
+                        'status' => $status,
+                        'class' => $class,
+                        'content' => apply_filters('the_content', $form_options['duplicate-failure-msg'])
+                    );
+                }
+            }
+        } 
+
+        // After looking for specific success / error and none found, set generals
+        if (!isset($return)) {
+            $class = (isset($form_options['failure-msg-class']) && $form_options['failure-msg-class'] != '') ? $form_options['failure-msg-class'] : 'global-failure';
+            $status = 'error';
+            if (isset($form_options['failure-msg']) && $form_options['failure-msg'] != '') {
+                $return = array(
+                    'status' => $status,
+                    'class' => $class, 
+                    'content' => apply_filters('the_content', $form_options['failure-msg'])
+                );
+            } else {
+                $return = array(
+                    'status' => $status,
+                    'class' => $class, 
+                    'content' => apply_filters('the_content', get_option('osd_mc_form_failure_message'))
+                );           
             }
         }
-        return 'error';
+
+        return json_encode($return);
     }
 
     //checks if a var isset and return a value

@@ -66,7 +66,7 @@ function osd_mail_chimp_js() {
                 }
                 var data = jQuery(form).serialize();
                 data += "&osd_mc_ajax=true&wp_nonce=<?php echo wp_create_nonce('osd_mc_subscribe'); ?>&action=osd_mc_subscribe"
-                var errorMessage = "Sorry, there was an error.";
+                var message = "Sorry, there was an error processing your request.";
 
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "<?php echo site_url(); ?>/wp-admin/admin-ajax.php");
@@ -74,22 +74,31 @@ function osd_mail_chimp_js() {
                 xhr.onreadystatechange = function() {
                     if (this.readyState === 4) {
                         if (this.status === 200) {
-                            var response = (this.response !== undefined) ? this.response: this.responseText;
-                            var message = (response != "error") ? response : errorMessage;
+                            var response = (this.response !== undefined) ? this.response : this.responseText;
                             try {
-                                var redirect = JSON.parse(response);
-                                window.location = redirect.url;
-                            } catch(error) {
-                                if (response != "error") {
-                                    form.reset();
+                                var returnArray = JSON.parse(response);
+
+                                if (returnArray.redirect !== undefined) {
+                                    window.location = returnArray.url;
+                                    return;
                                 }
+
+                                for (var i=0, l=messages.length; i < l; i++) {
+                                    messages[i].className = "osd-mc-message " + returnArray.class;
+                                    messages[i].innerHTML = returnArray.content;
+                                }
+
+                                if (returnArray.status == 'success') {
+                                    form.reset();    
+                                };
+                            } catch(error) {
                                 for (var i=0, l=messages.length; i < l; i++) {
                                     messages[i].innerHTML = message;
                                 }
                             }
                         } else {
                             for (var i=0, l=messages.length; i < l; i++) {
-                                messages[i].innerHTML = errorMessage;
+                                messages[i].innerHTML = message;
                             }
                         }
                     }
