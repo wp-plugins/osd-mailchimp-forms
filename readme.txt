@@ -60,6 +60,7 @@ Yes, as users ask us questions.
 == Changelog ==
 
 = 2.0 =
+* WARNING, YOU WILL NEED TO RESAVE YOUR GLOBAL SUCCESS MESSAGE AFTER THIS UPGRADE
 * Lots of new features added (See Upgrade Notice) revolving around MailChimp error handling
 * API Key Validation bug fixed
 * Various other bugs addressed
