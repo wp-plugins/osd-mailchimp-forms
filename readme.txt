@@ -3,7 +3,7 @@ Contributors: osdwebdev
 Tags: wordpress, mailchimp, mail chimp, subscribe, multiple subscribe forms, multiple mailchimp
 Requires at least: 3.4
 Tested up to: 4.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ Yes, as users ask us questions.
 4. Unstyled Successfully Submitted Form
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixed bug with quotation marks in form specific custom messaging
 
 = 2.0 =
 * WARNING, YOU WILL NEED TO RESAVE YOUR GLOBAL SUCCESS MESSAGE AFTER THIS UPGRADE

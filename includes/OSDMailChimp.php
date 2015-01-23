@@ -119,21 +119,21 @@ class OSDMailChimp {
                 $return .= "<div class='field'>
                                 <div class='success-label'>Custom success message:</div>
                                 <div class='success-msg'>
-                                    <input type='text' name='form[".$formID."][success-msg]' value='".$this->ifset($args['formInfo']['success-msg'])."' />
+                                    <input type='text' name='form[".$formID."][success-msg]' value='".stripcslashes($this->ifset($args['formInfo']['success-msg']))."' />
                                 </div>
                                 <div class='msg-class'><input type='text' name='form[".$formID."][msg-class]' value='".$this->ifset($args['formInfo']['msg-class'])."' /></div>
                             </div>";
                 $return .= "<div class='field'>
                                 <div class='failure-label'>Custom general failure message:</div>
                                 <div class='failure-msg'>
-                                    <input type='text' name='form[".$formID."][failure-msg]' value='".$this->ifset($args['formInfo']['failure-msg'])."' />
+                                    <input type='text' name='form[".$formID."][failure-msg]' value='".stripcslashes($this->ifset($args['formInfo']['failure-msg']))."' />
                                 </div>
                                 <div class='msg-class'><input type='text' name='form[".$formID."][failure-msg-class]' value='".$this->ifset($args['formInfo']['failure-msg-class'])."' /></div>
                             </div>";
                 $return .= "<div class='field'>
                                 <div class='duplicate-failure-label'>Custom duplicate email failure message:</div>
                                 <div class='duplicate-failure-msg'>
-                                    <input type='text' name='form[".$formID."][duplicate-failure-msg]' value='".$this->ifset($args['formInfo']['duplicate-failure-msg'])."' />
+                                    <input type='text' name='form[".$formID."][duplicate-failure-msg]' value='".stripcslashes($this->ifset($args['formInfo']['duplicate-failure-msg']))."' />
                                 </div>
                                 <div class='msg-class'><input type='text' name='form[".$formID."][duplicate-failure-msg-class]' value='".$this->ifset($args['formInfo']['duplicate-failure-msg-class'])."' /></div>
                             </div>";
@@ -303,7 +303,7 @@ class OSDMailChimp {
                 $return = array(
                     'status' => $status,
                     'class' => $class, 
-                    'content' => apply_filters('the_content', $form_options['success-msg'])
+                    'content' => apply_filters('the_content', stripcslashes($form_options['success-msg']))
                 );
             } else {
                 // Global success message
@@ -323,7 +323,7 @@ class OSDMailChimp {
                     $return = array(
                         'status' => $status,
                         'class' => $class,
-                        'content' => apply_filters('the_content', $form_options['duplicate-failure-msg'])
+                        'content' => apply_filters('the_content', stripcslashes($form_options['duplicate-failure-msg']))
                     );
                 }
             }
@@ -337,7 +337,7 @@ class OSDMailChimp {
                 $return = array(
                     'status' => $status,
                     'class' => $class, 
-                    'content' => apply_filters('the_content', $form_options['failure-msg'])
+                    'content' => apply_filters('the_content', stripcslashes($form_options['failure-msg']))
                 );
             } else {
                 $return = array(
